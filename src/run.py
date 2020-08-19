@@ -5,12 +5,14 @@ from testfuncs import retrieve_functions, run_all_tests, report_results, save_re
 
 if __name__ == '__main__':
 	implementations = (
-		'_pure',
-		'_numpy',
-		# 'cpu_pytorch',
+		'pure',
+		'numpy',
+		'torch_cpu',
+		'cython_pure',
+		'cython_c',
 	)
 	cases = {
-		'rootloop': [10**i for i in range(3, 8)],
+		'rootloop': [10**i for i in range(5, 8)],
 	}
 	parser = ArgumentParser(description="Test speed of Python implementations on a number of code cases")
 	parser.add_argument('--reps', type=int, help='Number of repetitions for each combination (default=10)', default=10)
@@ -29,5 +31,5 @@ if __name__ == '__main__':
 
 	print(result_report)
 	print()
-	print(f"Results and report are saved to {os.path.abspath(args.out)}.")
+	print(f"Results and report saved to {os.path.abspath(args.out)}.")
 	print("Results are pickled as a dict of dicts with numpy ndarrays as values.")

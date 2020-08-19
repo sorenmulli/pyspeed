@@ -36,10 +36,14 @@ def report_results(results: dict, caseargs: dict, reps: int) -> str:
 		lines.append("\t" + "".join("-" for _ in range(50)))
 		for implname, impl_results in case_results.items():
 			means, stds = impl_results.mean(0), impl_results.std(0)
-			with np.printoptions(precision=2):
-				lines.append(f"\t\t{implname}: {means}")
-				lines.append(f"\t\t{' '*(len(implname)-3)}+/-: {stds}\n")
+			lines.append(f"\t\t{implname}: {arrformat(means)}")
+			lines.append(f"\t\t{' '*(len(implname)-3)}+/-: {arrformat(stds)}\n")
 	return "\n".join(lines)
+
+def arrformat(arr: np.ndarray) -> str:
+	return ", ".join(np.format_float_scientific(x, precision=2, unique=False) for x in arr)
+
+
 
 def save_results(all_results: dict, report: str, path: str):
 	with open(os.path.join(path, 'results.dat' ), 'wb') as outfile:
@@ -49,10 +53,8 @@ def save_results(all_results: dict, report: str, path: str):
 
 def retrieve_functions(implementations: dict, cases: list) -> dict:
 	funcs = { name : dict() for name in cases }
-	# sys.path.append( os.path.join( sys.argv[0], implementation ) )
-
 	for implementation in implementations:
-		mod = import_module( implementation )
+		# Prepend _ to avoid clash with real packages
+		mod = import_module( '_' + implementation )
 		for fname in cases: funcs[fname][implementation] = getattr(mod, fname)
-
 	return funcs

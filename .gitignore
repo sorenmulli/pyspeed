@@ -2,11 +2,15 @@
 report.txt
 results.dat
 
-# ignore my neomake
-
+# Ignore my neomake
 *@neomake*
 
+# No build folders
+*/build
 
+# cython c and sofiles are regarded as build files here
+*_cython*.c
+*.so
 
 
 
