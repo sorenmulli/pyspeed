@@ -38,7 +38,7 @@ def report_results(results: dict, caseargs: dict, reps: int) -> str:
 			means, stds = impl_results.mean(0), impl_results.std(0)
 			with np.printoptions(precision=2):
 				lines.append(f"\t\t{implname}: {means}")
-				lines.append(f"\t\t{' '*(len(implname)-3)}+/-: {stds}")
+				lines.append(f"\t\t{' '*(len(implname)-3)}+/-: {stds}\n")
 	return "\n".join(lines)
 
 def save_results(all_results: dict, report: str, path: str):
@@ -49,9 +49,9 @@ def save_results(all_results: dict, report: str, path: str):
 
 def retrieve_functions(implementations: dict, cases: list) -> dict:
 	funcs = { name : dict() for name in cases }
+	# sys.path.append( os.path.join( sys.argv[0], implementation ) )
 
 	for implementation in implementations:
-		sys.path.append( os.path.join( sys.argv[0], implementation ) )
 		mod = import_module( implementation )
 		for fname in cases: funcs[fname][implementation] = getattr(mod, fname)
 

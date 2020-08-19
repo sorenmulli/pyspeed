@@ -6,9 +6,15 @@ A project concerned with comparing speeds of different python low-level language
 ### Pure python
 Using core python language features and nothing else.
 
+### Numpy
+Using built in functions from the numpy library
+
+### CPU PyTorch
+Using built in function from pytorch library on cpu
+
 ## Test cases
 
-### Loops
-A silly double for loop that computes $N^2 \cdot (N-1)$.
+### Rootloop
+Compute the sum of the square root of every even number up to N.
 
 

@@ -5,10 +5,12 @@ from testfuncs import retrieve_functions, run_all_tests, report_results, save_re
 
 if __name__ == '__main__':
 	implementations = (
-		'pure_py',
+		'_pure',
+		'_numpy',
+		# 'cpu_pytorch',
 	)
 	cases = {
-		'loops': [10**i for i in range(1, 4)],
+		'rootloop': [10**i for i in range(3, 8)],
 	}
 	parser = ArgumentParser(description="Test speed of Python implementations on a number of code cases")
 	parser.add_argument('--reps', type=int, help='Number of repetitions for each combination (default=10)', default=10)
