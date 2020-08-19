@@ -12,7 +12,8 @@ results.dat
 *_cython*.c
 *.so
 
-
+# For rust
+Cargo.lock
 
 
 
