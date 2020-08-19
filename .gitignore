@@ -1,4 +1,10 @@
+# Dont include data
+report.txt
+results.dat
 
+# ignore my neomake
+
+*@neomake*
 
 
 
