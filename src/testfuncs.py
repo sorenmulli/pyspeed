@@ -51,8 +51,9 @@ def save_results(all_results: dict, report: str, path: str):
 	with open(os.path.join(path, 'report.txt') , 'w') as outfile:
 		outfile.write(report)
 
-def retrieve_functions(implementations: dict, cases: list) -> dict:
+def retrieve_functions(implementations: dict, cases: list, module_path: str) -> dict:
 	funcs = { name : dict() for name in cases }
+	sys.path.append(module_path)
 	for implementation in implementations:
 		# Prepend _ to avoid clash with real packages
 		mod = import_module( '_' + implementation )

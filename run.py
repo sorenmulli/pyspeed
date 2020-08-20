@@ -1,7 +1,7 @@
-import os
+import os, sys
 from argparse import ArgumentParser
 
-from testfuncs import retrieve_functions, run_all_tests, report_results, save_results
+from src.testfuncs import retrieve_functions, run_all_tests, report_results, save_results
 
 if __name__ == '__main__':
 	implementations = (
@@ -32,7 +32,7 @@ if __name__ == '__main__':
 	print(f"Repetitions: {args.reps}. Function calls: {len(implementations) * args.reps * sum(len(c) for c in cases.values())} (each case may test multiple arguments)")
 	print()
 
-	all_funcs = retrieve_functions( implementations, list(cases.keys()) )
+	all_funcs = retrieve_functions( implementations, cases.keys(), os.path.join(os.path.dirname( sys.argv[0] ), 'src') )
 	all_results = run_all_tests(all_funcs, cases, args.reps)
 	result_report = report_results(all_results, cases, args.reps)
 	save_results(all_results, result_report, args.out)
