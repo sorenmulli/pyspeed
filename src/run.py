@@ -11,9 +11,10 @@ if __name__ == '__main__':
 		'cython_pure',
 		'cython_c',
 		'ctype',
+		'rust',
 	)
 	cases = {
-		'rootloop': [10**i for i in range(5, 8)],
+		'rootloop': [10**i for i in range(5, 7)],
 	}
 	parser = ArgumentParser(description="Test speed of Python implementations on a number of code cases")
 	parser.add_argument('--reps', type=int, help='Number of repetitions for each combination (default=10)', default=10)
