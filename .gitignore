@@ -15,7 +15,7 @@ results.dat
 # For rust
 Cargo.lock
 
-
+.vscode
 
 
 
