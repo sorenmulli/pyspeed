@@ -1,4 +1,3 @@
-
 #[no_mangle]
 #[allow(non_snake_case)]
 fn rootloop(N: isize) -> f64 {
