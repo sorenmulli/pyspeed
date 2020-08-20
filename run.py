@@ -13,6 +13,7 @@ if __name__ == '__main__':
 		'cython_c',
 		'ctype_c',
 		'ctype_rust',
+		'numba',
 	)
 	cases = {
 		'rootloop': [10**i for i in range(5, 7)],

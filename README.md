@@ -31,6 +31,9 @@ Using the ctypes module to load in a dll (so) written in C and compiled
 
 Using the ctypes module to load in a dll (so) written in Rust and compiled
 
+* Numba
+
+Using the pure python code and adding `@jit` from numba
 ## Test cases
 * rootloop
 
