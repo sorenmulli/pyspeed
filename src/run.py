@@ -10,6 +10,7 @@ if __name__ == '__main__':
 		'torch_cpu',
 		'cython_pure',
 		'cython_c',
+		'ctype',
 	)
 	cases = {
 		'rootloop': [10**i for i in range(5, 8)],
