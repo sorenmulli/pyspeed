@@ -1,7 +1,7 @@
 # include <math.h>
-long rootloop(int N) {
-    long x = 0;
-    long i;
+double rootloop(int N) {
+    double x = 0;
+    double i;
     for (i = 0; i <= N; i += 2) {
         x += sqrt(i);
     }
