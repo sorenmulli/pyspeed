@@ -43,8 +43,6 @@ def report_results(results: dict, caseargs: dict, reps: int) -> str:
 def arrformat(arr: np.ndarray) -> str:
 	return ", ".join(np.format_float_scientific(x, precision=2, unique=False) for x in arr)
 
-
-
 def save_results(all_results: dict, report: str, path: str):
 	with open(os.path.join(path, 'results.dat' ), 'wb') as outfile:
 		pickle.dump(all_results, outfile)
@@ -57,5 +55,9 @@ def retrieve_functions(implementations: dict, cases: list, module_path: str) -> 
 	for implementation in implementations:
 		# Prepend _ to avoid clash with real packages
 		mod = import_module( '_' + implementation )
-		for fname in cases: funcs[fname][implementation] = getattr(mod, fname)
+		for fname in cases:
+			try:
+				funcs[fname][implementation] = getattr(mod, fname)
+			except AttributeError:
+				print(f"[warning] {fname} not found in {implementation}")
 	return funcs

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os, sys
 from argparse import ArgumentParser
 
@@ -16,6 +17,7 @@ if __name__ == '__main__':
 	cases = {
 		'rootloop': [10**i for i in range(5, 7)],
 	}
+
 	parser = ArgumentParser(description="Test speed of Python implementations on a number of code cases")
 	parser.add_argument('--impl',  type=str, nargs='+', help='What implementations to test. If not given, test all')
 	parser.add_argument('--cases', type=str, nargs='+', help='What cases to test. If not given, test all')
@@ -27,12 +29,12 @@ if __name__ == '__main__':
 	if args.impl: implementations = args.impl
 	if args.cases: cases = {name: cases[name] for name in args.cases}
 
+	all_funcs = retrieve_functions( implementations, cases.keys(), os.path.join(os.path.dirname( sys.argv[0] ), 'src') )
 
 	print(f"Starting evaluation of {len(cases)} case(s) in {len(implementations)} different implementation(s).")
 	print(f"Repetitions: {args.reps}. Function calls: {len(implementations) * args.reps * sum(len(c) for c in cases.values())} (each case may test multiple arguments)")
 	print()
 
-	all_funcs = retrieve_functions( implementations, cases.keys(), os.path.join(os.path.dirname( sys.argv[0] ), 'src') )
 	all_results = run_all_tests(all_funcs, cases, args.reps)
 	result_report = report_results(all_results, cases, args.reps)
 	save_results(all_results, result_report, args.out)
