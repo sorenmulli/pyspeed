@@ -24,4 +24,4 @@ Adding cython (C) language features to the pure python implementation.
 Compute the sum of the square root of every even number up to N.
 
 ## Setup
-Build both cython implementations (see their src folders)
+Run `build.sh`.
