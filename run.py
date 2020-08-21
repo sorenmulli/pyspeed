@@ -24,19 +24,19 @@ if __name__ == '__main__':
 	parser.add_argument('--cases', type=str, nargs='+', help='What cases to test. If not given, test all')
 	parser.add_argument('--reps',  type=int, help='Number of repetitions for each combination (default=10)', default=10)
 	parser.add_argument('--out',   type=str, help='Folder to save results (default: working dir.)', default='')
+	parser.add_argument('--progress', dest='progress', action='store_true', help="Print progress and results of first function calls")
+	parser.set_defaults(progress=False)
 
 	args = parser.parse_args()
-
 	if args.impl: implementations = args.impl
 	if args.cases: cases = {name: cases[name] for name in args.cases}
 
 	all_funcs = retrieve_functions( implementations, cases.keys(), os.path.join(os.path.dirname( sys.argv[0] ), 'src') )
-
 	print(f"Starting evaluation of {len(cases)} case(s) in {len(implementations)} different implementation(s).")
 	print(f"Repetitions: {args.reps}. Function calls: {len(implementations) * args.reps * sum(len(c) for c in cases.values())} (each case may test multiple arguments)")
 	print()
 
-	all_results = run_all_tests(all_funcs, cases, args.reps, _print=True)
+	all_results = run_all_tests(all_funcs, cases, args.reps, _print=args.progress)
 	result_report = report_results(all_results, cases, args.reps)
 	save_results(all_results, result_report, args.out)
 
