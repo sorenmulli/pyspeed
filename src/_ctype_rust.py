@@ -8,4 +8,4 @@ rust_lib = ctypes.CDLL(
     )
 )
 rootloop = rust_lib.rootloop
-
+rootloop.restype = ctypes.c_double
