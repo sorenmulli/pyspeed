@@ -20,11 +20,16 @@ def run_test(func, combinations: list, reps: int) -> np.ndarray:
 		[ take_time(func, args) for args in combinations ] for _ in range(reps)
 		])
 
-def run_all_implementations(funcs: dict, comb: list, reps: int) -> dict:
-	return { name: run_test(func, comb, reps) for (name, func) in funcs.items()  }
+def run_all_implementations(funcs: dict, comb: list, reps: int, print_case: str=None) -> dict:
+	results = dict()
+	for name, func in funcs.items():
+		if print_case:
+			print(f"Running {name} on {print_case}\n\t1st call result: {func(comb[0])}")
+		results[name] = run_test(func, comb, reps)
+	return results
 
-def run_all_tests(funcs: dict, cases: dict, reps: int) -> dict:
-	return { case: run_all_implementations(funcs[case], combs, reps) for (case, combs) in cases.items() }
+def run_all_tests(funcs: dict, cases: dict, reps: int, _print=False) -> dict:
+	return { case: run_all_implementations(funcs[case], combs, reps, print_case = case if _print else None) for (case, combs) in cases.items() }
 
 def report_results(results: dict, caseargs: dict, reps: int) -> str:
 	""" Generates a string reporting the results (mean and stds.) of run times """

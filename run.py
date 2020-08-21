@@ -36,7 +36,7 @@ if __name__ == '__main__':
 	print(f"Repetitions: {args.reps}. Function calls: {len(implementations) * args.reps * sum(len(c) for c in cases.values())} (each case may test multiple arguments)")
 	print()
 
-	all_results = run_all_tests(all_funcs, cases, args.reps)
+	all_results = run_all_tests(all_funcs, cases, args.reps, _print=True)
 	result_report = report_results(all_results, cases, args.reps)
 	save_results(all_results, result_report, args.out)
 
