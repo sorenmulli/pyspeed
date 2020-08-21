@@ -1,6 +1,7 @@
-# Dont include data
+# Dont include data and visualizations
 report.txt
 results.dat
+plots
 
 # Ignore my neomake
 *@neomake*
@@ -15,9 +16,8 @@ results.dat
 # For rust
 Cargo.lock
 
+# Editor stuff
 .vscode
-
-
 
 # Below is from https://github.com/github/gitignore (python file and C file combined)
 

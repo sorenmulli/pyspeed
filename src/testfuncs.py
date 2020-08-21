@@ -18,7 +18,7 @@ def run_test(func, combinations: list, reps: int) -> np.ndarray:
 	"""
 	return np.array([
 		[ take_time(func, args) for args in combinations ] for _ in range(reps)
-		])
+	])
 
 def run_all_implementations(funcs: dict, comb: list, reps: int, print_case: str=None) -> dict:
 	results = dict()

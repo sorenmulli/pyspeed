@@ -3,6 +3,7 @@ import os, sys
 from argparse import ArgumentParser
 
 from src.testfuncs import retrieve_functions, run_all_tests, report_results, save_results
+from src.plot import make_plots
 
 if __name__ == '__main__':
 	implementations = (
@@ -16,7 +17,7 @@ if __name__ == '__main__':
 		'numba',
 	)
 	cases = {
-		'rootloop': [10**i for i in range(5, 7)],
+		'rootloop': [10**i for i in range(4, 8)],
 	}
 
 	parser = ArgumentParser(description="Test speed of Python implementations on a number of code cases")
@@ -28,8 +29,10 @@ if __name__ == '__main__':
 	parser.set_defaults(progress=False)
 
 	args = parser.parse_args()
-	if args.impl: implementations = args.impl
-	if args.cases: cases = {name: cases[name] for name in args.cases}
+	if args.impl:
+		implementations = args.impl
+	if args.cases:
+		cases = {name: cases[name] for name in args.cases}
 
 	all_funcs = retrieve_functions( implementations, cases.keys(), os.path.join(os.path.dirname( sys.argv[0] ), 'src') )
 	print(f"Starting evaluation of {len(cases)} case(s) in {len(implementations)} different implementation(s).")
@@ -44,3 +47,6 @@ if __name__ == '__main__':
 	print()
 	print(f"Results and report saved to {os.path.abspath(args.out)}.")
 	print("Results are pickled as a dict of dicts with numpy ndarrays as values.")
+
+	print("Making plots and saving to 'plots' folder")
+	make_plots(cases, all_results)
