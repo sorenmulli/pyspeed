@@ -10,7 +10,8 @@ def get_sysinfo() -> str:
     infostr = f"{cpu} {cores}c/{threads}t"
     try:
         gpus = GPUtil.getGPUs()
-        infostr += f"\n{gpus[0].name}"
+        if gpus:
+            infostr += f"\n{gpus[0].name}"
     except ValueError:
         pass
     return infostr

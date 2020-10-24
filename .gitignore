@@ -3,6 +3,9 @@ report.txt
 results.dat
 plots
 
+# hpc stuff
+job.sh
+
 # Ignore my neomake
 *@neomake*
 
