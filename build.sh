@@ -9,7 +9,7 @@ python setup.py build_ext --inplace
 
 # C
 cd ../c_src
-gcc -shared -o lib.so lib.c
+gcc -shared -o lib.so lib.c -O3
 
 # Rust
 cd ../rust_src

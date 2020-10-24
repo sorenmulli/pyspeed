@@ -11,25 +11,51 @@ def take_time(func, *args) -> float:
 	func(*args)
 	return perf_counter() - t
 
-def run_test(func, combinations: list, reps: int) -> np.ndarray:
+def run_test(func, combinations: list, reps: int, max_time: float, case: str) -> np.ndarray:
 	"""
 	Evaluates `func` for each argument in combinations reps times.
 	Gives results in array of shape (n_combinations, n_reps)
 	"""
-	return np.array([
-		[ take_time(func, args) for args in combinations ] for _ in range(reps)
-	])
+	times = np.empty([reps, len(combinations)])
+	for i, args in enumerate(combinations):
+		if i == 0:  # Perform extra evaluation to prevent weird timings
+			take_time(func, args)
+		for j in range(reps):
+			try:
+				runtime = take_time(func, args)
+			except Exception as e:
+				times[:, i:] = np.nan
+				print("Stopping running tests of %s %s at %i repetitions after exception was thrown:\n%s" % (
+					case, func.__name__, reps, e
+				))
+				return times
+			if runtime > max_time:
+				times[:, i:] = np.nan
+				print("Stopping running tests of %s %s at %i repetitions after runtime of %.4e s was observed" % (
+					case, func.__name__, reps, runtime,
+				))
+				return times
+			else:
+				times[j, i] = runtime
+	return times
 
-def run_all_implementations(funcs: dict, comb: list, reps: int, print_case: str=None) -> dict:
+def run_all_implementations(funcs: dict, comb: list, reps: int, max_time: float, print_case: str=None) -> dict:
 	results = dict()
 	for name, func in funcs.items():
+		results[name] = run_test(func, comb, reps, max_time, name)
 		if print_case:
-			print(f"Running {name} on {print_case}\n\t1st call result: {func(comb[0])}")
-		results[name] = run_test(func, comb, reps)
+			for i, args in enumerate(comb):
+				if not np.any(np.isnan(results[name][:, i])):
+					print(f"Result of {name} on {print_case} with args = {args:.2e}: {func(args):e}")
+				else:
+					print(f"Result of {name} on {print_case} with args = {args:.2e}: unknown")
 	return results
 
-def run_all_tests(funcs: dict, cases: dict, reps: int, _print=False) -> dict:
-	return { case: run_all_implementations(funcs[case], combs, reps, print_case = case if _print else None) for (case, combs) in cases.items() }
+def run_all_tests(funcs: dict, cases: dict, reps: int, max_time: float, _print=False) -> dict:
+	return {
+		case: run_all_implementations(funcs[case], combs, reps, max_time, print_case = case if _print else None)
+		for (case, combs) in cases.items()
+	}
 
 def report_results(results: dict, caseargs: dict, reps: int) -> str:
 	""" Generates a string reporting the results (mean and stds.) of run times """
